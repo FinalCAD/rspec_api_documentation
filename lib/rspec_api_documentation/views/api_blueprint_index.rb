@@ -66,7 +66,7 @@ module RspecApiDocumentation
       #     type: "string",
       #     name: "id",
       #     description: "The id",
-      #     properties_description: "required, string"
+      #     properties_description: "string, required"
       #   }
       def fields(property_name, examples)
         examples
@@ -76,8 +76,10 @@ module RspecApiDocumentation
           .uniq { |property| property[:name] }
           .map do |property|
             properties = []
-            properties << "required"      if property[:required]
             properties << property[:type] if property[:type]
+            properties << "required"      if property[:required] == true
+            properties << "optional"      if property[:required].blank?
+
             if properties.count > 0
               property[:properties_description] = properties.join(", ")
             else
