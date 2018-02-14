@@ -19,11 +19,11 @@ FORMAT: 1A
 ## {{ route_name }} [{{ route }}]
 {{# description }}
 
-description: {{ description }}
+{{ description }}
 {{/ description }}
 {{# explanation }}
-{{{ explanation }}}
 
+{{{ explanation }}}
 {{/ explanation }}
 {{# has_parameters? }}
 
@@ -36,6 +36,10 @@ description: {{ description }}
 {{# http_methods }}
 
 ### {{ description }} [{{ http_method }}]
+{{# explanation }}
+
+{{{ explanation }}}
+{{/ explanation }}
 {{# has_attributes? }}
 
 + Parameters
