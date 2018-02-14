@@ -28,22 +28,24 @@ description: {{ description }}
 {{# has_parameters? }}
 
 + Parameters
+
 {{# parameters }}
-  + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+    + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
 {{/ parameters }}
 {{/ has_parameters? }}
-{{# has_attributes? }}
-
-+ Attributes (object)
-{{# attributes }}
-  + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
-{{/ attributes }}
-{{/ has_attributes? }}
 {{# http_methods }}
 
 ### {{ description }} [{{ http_method }}]
+{{# has_attributes? }}
 
++ Parameters
+
+{{# attributes }}
+    + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+{{/ attributes }}
+{{/ has_attributes? }}
 {{# explanation }}
+
 {{{ explanation }}}
 {{/ explanation }}
 
