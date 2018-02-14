@@ -16,6 +16,7 @@ module RspecApiDocumentation
               {
                 http_method: http_method,
                 description: examples.first.respond_to?(:action_name) && examples.first.action_name,
+                explanation: examples.first.respond_to?(:method_explanation) && examples.first.method_explanation,
                 examples: examples
               }
             end
@@ -25,6 +26,7 @@ module RspecApiDocumentation
               "has_parameters?".to_sym => params.size > 0,
               route: format_route(examples[0]),
               route_name: examples[0][:route_name],
+              explanation: examples[0][:route_explanation],
               attributes: attrs,
               parameters: params,
               http_methods: methods

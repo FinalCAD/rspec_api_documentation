@@ -71,7 +71,13 @@ module RspecApiDocumentation::DSL
       end
 
       def explanation(text)
-        safe_metadata(:resource_explanation, text)
+        if metadata[:method].present?
+          safe_metadata(:method_explanation, text)
+        elsif metadata[:route_uri].present?
+          safe_metadata(:route_explanation, text)
+        else
+          safe_metadata(:resource_explanation, text)
+        end
       end
 
       private
