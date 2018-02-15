@@ -35,7 +35,9 @@ FORMAT: 1A
 {{/ has_parameters? }}
 {{# http_methods }}
 
-### {{ description }} [{{ http_method }}]
+{{# examples }}
+
+### {{ action_name }} [{{ http_method }}]
 {{# explanation }}
 
 {{{ explanation }}}
@@ -49,7 +51,6 @@ FORMAT: 1A
 {{/ attributes }}
 {{/ has_attributes? }}
 
-{{# examples }}
 {{# requests }}
 {{# has_request? }}
 
