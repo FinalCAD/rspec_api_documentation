@@ -62,7 +62,6 @@ module RspecApiDocumentation
       # with all of its properties, like name, description, required.
       #   {
       #     required: true,
-      #     example: "1",
       #     type: "string",
       #     name: "id",
       #     description: "The id",

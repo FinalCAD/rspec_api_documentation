@@ -30,12 +30,13 @@ FORMAT: 1A
 + Parameters
 
 {{# parameters }}
-    + {{ name }}{{# example }}: {{{ example }}}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+    + {{ name }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
 {{/ parameters }}
 {{/ has_parameters? }}
 {{# http_methods }}
 
 {{# examples }}
+{{# requests }}
 
 ### {{ action_name }} [{{ http_method }}]
 {{# explanation }}
@@ -47,11 +48,9 @@ FORMAT: 1A
 + Parameters
 
 {{# attributes }}
-    + {{ name }}{{# example }}: {{{ example }}}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+    + {{ name }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
 {{/ attributes }}
 {{/ has_attributes? }}
-
-{{# requests }}
 {{# has_request? }}
 
 + Request {{ description }}{{# request_content_type }} ({{ request_content_type }}){{/ request_content_type }}
