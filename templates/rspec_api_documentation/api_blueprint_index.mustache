@@ -48,7 +48,11 @@ FORMAT: 1A
 + Parameters
 
 {{# attributes }}
-    + {{ name }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+    + {{ name }}{{# value }}: {{ value }}{{/ value }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+{{# default }}
+
+        + Default: {{ default }}
+{{/ default }}
 {{/ attributes }}
 {{/ has_attributes? }}
 {{# has_request? }}
