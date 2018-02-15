@@ -63,7 +63,10 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
 
   let(:rspec_example_comments) do
     comment_group.route "/comments", "Comments Collection" do
+      explanation "Route explanation"
+
       get("/comments") do
+        explanation "Method explanation"
         example_request 'Get all comments' do
         end
       end
@@ -98,6 +101,8 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
         post_route = sections[1][:routes][1]
         post_route_with_optionals = sections[1][:routes][2]
 
+        expect(comments_route[:explanation]).to eq "Route explanation"
+
         comments_examples = comments_route[:http_methods].map { |http_method| http_method[:examples] }.flatten
         expect(comments_examples.size).to eq 1
         expect(comments_route[:route]).to eq "/comments"
@@ -118,7 +123,7 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           example: "1",
           name: "id",
           description: "The id",
-          properties_description: "required, string"
+          properties_description: "string, required"
         }]
         expect(post_route[:has_attributes?]).to eq true
         expect(post_route[:attributes]).to eq [{
@@ -139,11 +144,11 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           example: "1",
           name: "id",
           description: "The id",
-          properties_description: "required, string"
+          properties_description: "string, required"
         }, {
           name: "option",
           description: nil,
-          properties_description: nil
+          properties_description: "optional"
         }]
         expect(post_route_with_optionals[:has_attributes?]).to eq false
         expect(post_route_with_optionals[:attributes]).to eq []
@@ -159,7 +164,7 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           required: false,
           name: "description",
           description: nil,
-          properties_description: nil
+          properties_description: "optional"
         }]
       end
     end

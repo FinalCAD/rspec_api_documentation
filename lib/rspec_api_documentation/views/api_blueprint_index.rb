@@ -15,8 +15,8 @@ module RspecApiDocumentation
             methods = examples.group_by(&:http_method).map do |http_method, examples|
               {
                 http_method: http_method,
-                description: examples.first.respond_to?(:action_name) && examples.first.action_name,
-                explanation: examples.first.respond_to?(:method_explanation) && examples.first.method_explanation,
+                description: examples.first.try(:action_name),
+                explanation: examples.first.try(:[], :metadata).try(:[], :method_explanation),
                 examples: examples
               }
             end
