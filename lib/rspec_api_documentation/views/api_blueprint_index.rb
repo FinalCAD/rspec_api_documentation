@@ -12,14 +12,18 @@ module RspecApiDocumentation
             attrs  = fields(:attributes, examples)
             params = fields(:parameters, examples)
 
-            methods = examples.group_by(&:http_method).map do |http_method, examples|
-              {
-                http_method: http_method,
-                description: examples.first.try(:action_name),
-                explanation: examples.first.try(:[], :metadata).try(:[], :method_explanation),
-                examples: examples
-              }
-            end
+            methods = examples
+              .group_by { |e| "#{e.http_method} - #{e.action_name}" }
+              .map do |group, examples|
+                first_example = examples.first
+
+                {
+                  http_method: first_example.try(:http_method),
+                  description: first_example.try(:action_name),
+                  explanation: first_example.try(:[], :metadata).try(:[], :method_explanation),
+                  examples: examples
+                }
+              end
 
             {
               "has_attributes?".to_sym => attrs.size > 0,
