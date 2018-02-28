@@ -38,7 +38,7 @@ module RspecApiDocumentation
           end
 
           section.merge({
-            routes: routes
+            routes: @configuration.sort_routes ? routes.sort_by { |r| r[:route_name] } : routes
           })
         end
       end
