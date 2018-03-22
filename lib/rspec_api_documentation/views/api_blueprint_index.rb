@@ -12,19 +12,25 @@ module RspecApiDocumentation
             attrs  = fields(:attributes, examples)
             params = fields(:parameters, examples)
 
-            methods = examples.group_by(&:http_method).map do |http_method, examples|
-              {
-                http_method: http_method,
-                description: examples.first.respond_to?(:action_name) && examples.first.action_name,
-                examples: examples
-              }
-            end
+            methods = examples
+              .group_by { |e| "#{e.http_method} - #{e.action_name}" }
+              .map do |group, examples|
+                first_example = examples.first
+
+                {
+                  http_method: first_example.try(:http_method),
+                  description: first_example.try(:action_name),
+                  explanation: first_example.try(:[], :metadata).try(:[], :method_explanation),
+                  examples: examples
+                }
+              end
 
             {
               "has_attributes?".to_sym => attrs.size > 0,
               "has_parameters?".to_sym => params.size > 0,
               route: format_route(examples[0]),
               route_name: examples[0][:route_name],
+              explanation: examples[0][:route_explanation],
               attributes: attrs,
               parameters: params,
               http_methods: methods
@@ -32,7 +38,7 @@ module RspecApiDocumentation
           end
 
           section.merge({
-            routes: routes
+            routes: @configuration.sort_routes ? routes.sort_by { |r| r[:route_name] } : routes
           })
         end
       end
@@ -60,11 +66,10 @@ module RspecApiDocumentation
       # with all of its properties, like name, description, required.
       #   {
       #     required: true,
-      #     example: "1",
       #     type: "string",
       #     name: "id",
       #     description: "The id",
-      #     properties_description: "required, string"
+      #     properties_description: "string, required"
       #   }
       def fields(property_name, examples)
         examples
@@ -74,8 +79,10 @@ module RspecApiDocumentation
           .uniq { |property| property[:name] }
           .map do |property|
             properties = []
-            properties << "required"      if property[:required]
             properties << property[:type] if property[:type]
+            properties << "required"      if property[:required] == true
+            properties << "optional"      if property[:required].blank?
+
             if properties.count > 0
               property[:properties_description] = properties.join(", ")
             else
