@@ -3,7 +3,7 @@ require 'rack/test'
 require 'capybara'
 require 'capybara/server'
 require 'sinatra/base'
-require 'webmock'
+require 'webmock/rspec'
 require 'support/stub_app'
 
 describe RspecApiDocumentation::HttpTestClient do
@@ -16,7 +16,7 @@ describe RspecApiDocumentation::HttpTestClient do
       Rack::Handler::Thin.run(app, :Port => port)
     end
 
-    server = Capybara::Server.new(StubApp.new, 8888)
+    server = Capybara::Server.new(StubApp.new, 29876)
     server.boot
   end
 
@@ -25,7 +25,7 @@ describe RspecApiDocumentation::HttpTestClient do
   end
 
   let(:client_context) { |example| double(example: example, app_root: 'nowhere') }
-  let(:target_host) { 'http://localhost:8888' }
+  let(:target_host) { 'http://localhost:29876' }
   let(:test_client) { RspecApiDocumentation::HttpTestClient.new(client_context, {host: target_host}) }
 
   subject { test_client }

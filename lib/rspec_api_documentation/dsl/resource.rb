@@ -8,15 +8,25 @@ module RspecApiDocumentation::DSL
         define_method method do |*args, &block|
           options = args.extract_options!
           options[:method] = method
+
           if metadata[:route_uri]
             options[:route] = metadata[:route_uri]
             options[:action_name] = args.first
+
           else
             options[:route] = args.first
+            options[:route_uri] = args[0].gsub(/\{.*\}/, "")
+            options[:route_optionals] = (optionals = args[0].match(/(\{.*\})/) and optionals[-1])
+            options[:route_name] = options[:route_name] || options[:route]
+            options[:action_name] = options[:action_name] || method.to_s.upcase
+
           end
+
           options[:api_doc_dsl] = :endpoint
+
           args.push(options)
           args[0] = "#{method.to_s.upcase} #{args[0]}"
+
           context(*args, &block)
         end
       end
@@ -30,7 +40,7 @@ module RspecApiDocumentation::DSL
 
       def callback(*args, &block)
         begin
-          require 'webmock'
+          require 'webmock/rspec'
         rescue LoadError
           raise "Callbacks require webmock to be installed"
         end
@@ -71,7 +81,13 @@ module RspecApiDocumentation::DSL
       end
 
       def explanation(text)
-        safe_metadata(:resource_explanation, text)
+        if metadata[:method].present?
+          safe_metadata(:method_explanation, text)
+        elsif metadata[:route_uri].present?
+          safe_metadata(:route_explanation, text)
+        else
+          safe_metadata(:resource_explanation, text)
+        end
       end
 
       private

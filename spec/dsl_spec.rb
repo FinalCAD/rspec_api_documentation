@@ -130,9 +130,12 @@ resource "Order" do
     parameter :id, 'The ID of the resource.', :required => true, scope: :data
     parameter :note, "Any additional notes about your order."
 
+    attribute :tip, "The amount you want to tip", :required => true
+
     let(:type) { "coffee" }
     let(:size) { "medium" }
     let(:data_id) { 2 }
+    let(:tip) { 20 }
 
     let(:id) { 1 }
 
@@ -155,6 +158,10 @@ resource "Order" do
 
       it 'should set the scoped data ID' do
         expect(params['data']).to eq({'id' => 2})
+      end
+
+      it "should set attributes as well" do
+        expect(params["tip"]).to eq(tip())
       end
 
       it "should allow extra parameters to be passed in" do

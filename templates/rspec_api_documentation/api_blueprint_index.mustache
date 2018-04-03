@@ -1,4 +1,8 @@
-FORMAT: A1
+FORMAT: 1A
+
+# {{ api_name }}
+{{{ api_explanation }}}
+
 {{# sections }}
 
 # Group {{ resource_name }}
@@ -15,46 +19,69 @@ FORMAT: A1
 ## {{ route_name }} [{{ route }}]
 {{# description }}
 
-description: {{ description }}
+{{ description }}
 {{/ description }}
 {{# explanation }}
 
-explanation: {{ explanation }}
+{{{ explanation }}}
 {{/ explanation }}
 {{# has_parameters? }}
 
 + Parameters
+
 {{# parameters }}
-  + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+    + {{ name }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}
+{{# description }}
+
+        {{ description }}
+{{/ description }}
 {{/ parameters }}
 {{/ has_parameters? }}
-{{# has_attributes? }}
-
-+ Attributes (object)
-{{# attributes }}
-  + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
-{{/ attributes }}
-{{/ has_attributes? }}
 {{# http_methods }}
 
 ### {{ description }} [{{ http_method }}]
+{{# explanation }}
+
+{{{ explanation }}}
+{{/ explanation }}
+
 {{# examples }}
 {{# requests }}
+{{# has_attributes? }}
+
++ Parameters
+
+{{# attributes }}
+    + {{ name }}{{# value }}: {{ value }}{{/ value }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}
+{{# description }}
+
+        {{ description }}
+{{/ description }}
+{{# default }}
+
+        + Default: {{ default }}
+{{/ default }}
+{{/ attributes }}
+{{/ has_attributes? }}
 {{# has_request? }}
 
 + Request {{ description }}{{# request_content_type }} ({{ request_content_type }}){{/ request_content_type }}
+
+    {{# explanation }}
+    {{{ explanation }}}
+    {{/ explanation }}
 {{/ has_request? }}
 {{# request_headers_text }}
 
     + Headers
 
-        {{{ request_headers_text }}}
+            {{{ request_headers_text }}}
 {{/ request_headers_text }}
 {{# request_body }}
 
     + Body
 
-        {{{ request_body }}}
+            {{{ request_body }}}
 {{/ request_body }}
 {{# has_response? }}
 
@@ -64,13 +91,13 @@ explanation: {{ explanation }}
 
     + Headers
 
-        {{{ response_headers_text }}}
+            {{{ response_headers_text }}}
 {{/ response_headers_text }}
 {{# response_body }}
 
     + Body
 
-        {{{ response_body }}}
+            {{{ response_body }}}
 {{/ response_body }}
 {{/ requests }}
 {{/ examples }}
